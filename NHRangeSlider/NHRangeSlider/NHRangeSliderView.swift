@@ -294,7 +294,7 @@ open class NHRangeSliderView: UIView {
             }
             
             rangeSlider.frame = CGRect(x: 0,
-                                       y: titleLabelMaxY + lowerLabel.font.lineHeight + self.spacing,
+                                       y: titleLabelMaxY,
                                        width: commonWidth ,
                                        height: thumbSize)
 
@@ -318,12 +318,12 @@ open class NHRangeSliderView: UIView {
             lowerLabel.frame = CGRect(      x: lowerLabelX,
                                             y: titleLabelMaxY,
                                             width: lowerWidth ,
-                                            height: lowerLabel.font.lineHeight + self.spacing )
+                                            height: lowerLabel.font.lineHeight + self.spacing + rangeSlider.frame.height)
             
             upperLabel.frame = CGRect(      x: upperLabelX,
                                             y: titleLabelMaxY,
                                             width: upperWidth ,
-                                            height: upperLabel.font.lineHeight + self.spacing )
+                                            height: upperLabel.font.lineHeight + self.spacing + rangeSlider.frame.height )
             
         }
         

@@ -302,7 +302,7 @@ open class NHRangeSlider: UIControl {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
 
-        var trackFrame = bounds.insetBy(dx: 0.0, dy: bounds.height/3)
+        var trackFrame = bounds.insetBy(dx: 0.0, dy: bounds.height / 3)
         trackFrame.size.height = sliderHeight
         trackFrame.origin.y += sliderHeight / 2
         trackLayer.frame = trackFrame
