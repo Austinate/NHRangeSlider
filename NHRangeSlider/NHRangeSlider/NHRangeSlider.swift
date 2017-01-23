@@ -211,7 +211,12 @@ open class NHRangeSlider: UIControl {
             upperThumbLayer.lineWidth = thumbBorderWidth
         }
     }
-    
+
+    open var sliderHeight: CGFloat = NHRangeSliderView.defaultThumbHeight {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     /// set 0.0 for square thumbs to 1.0 for circle thumbs
     @IBInspectable open var curvaceousness: CGFloat = 1.0 {
         didSet {
@@ -296,8 +301,11 @@ open class NHRangeSlider: UIControl {
     open func updateLayerFrames() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        
-        trackLayer.frame = bounds.insetBy(dx: 0.0, dy: bounds.height/3)
+
+        var trackFrame = bounds.insetBy(dx: 0.0, dy: bounds.height/3)
+        trackFrame.size.height = sliderHeight
+        trackFrame.origin.y += sliderHeight / 2
+        trackLayer.frame = trackFrame
         trackLayer.setNeedsDisplay()
         
         let lowerThumbCenter = CGFloat(positionForValue(lowerValue))

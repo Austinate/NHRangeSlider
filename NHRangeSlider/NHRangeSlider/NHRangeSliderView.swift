@@ -30,7 +30,6 @@ public extension NHRangeSliderViewDelegate{
 
 /// Range slider with labels for upper and lower thumbs, title label and configurable step value (optional)
 open class NHRangeSliderView: UIView {
-
     //MARK: properties
     
     open var delegate: NHRangeSliderViewDelegate? = nil
@@ -60,7 +59,9 @@ open class NHRangeSliderView: UIView {
             updateLabelDisplay()
         }
     }
-    
+
+    open static var defaultThumbHeight: CGFloat = 32
+
     /// vertical spacing
     open var spacing: CGFloat = 4.0
     
@@ -156,15 +157,21 @@ open class NHRangeSliderView: UIView {
             self.rangeSlider?.curvaceousness = curvaceousness
         }
     }
-    
+
     /// thumb width and height
-    @IBInspectable open var thumbSize: CGFloat = 32.0 {
+    @IBInspectable open var thumbSize: CGFloat = defaultThumbHeight {
         didSet {
             if let slider = self.rangeSlider {
                 var oldFrame = slider.frame
                 oldFrame.size.height = thumbSize
                 slider.frame = oldFrame
             }
+        }
+    }
+
+    @IBInspectable open var sliderHeight: CGFloat = defaultThumbHeight {
+        didSet {
+            rangeSlider?.sliderHeight = sliderHeight
         }
     }
     
@@ -273,7 +280,7 @@ open class NHRangeSliderView: UIView {
             rangeSlider.frame = CGRect(x: 0,
                                        y: titleLabelMaxY + lowerLabel.font.lineHeight + self.spacing,
                                        width: commonWidth ,
-                                       height: thumbSize )
+                                       height: thumbSize)
 
             let lowerWidth = self.estimatelabelSize(font: lowerLabel.font, string: lowerLabel.text!, constrainedToWidth: Double(commonWidth)).width
             let upperWidth = self.estimatelabelSize(font: upperLabel.font, string: upperLabel.text!, constrainedToWidth: Double(commonWidth)).width
