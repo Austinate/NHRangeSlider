@@ -52,9 +52,18 @@ open class NHRangeSliderView: UIView {
             updateLabelDisplay()
         }
     }
-    
+
+    public typealias StringFormattingHandler = (NHRangeSliderView, Double) -> String?
+
     /// display format for upper value. Default to %.0f to display value as Int
-    open var upperDisplayStringFormat: String = "%.0f" {
+    open var upperDisplayFormatting: StringFormattingHandler {
+        didSet {
+            updateLabelDisplay()
+        }
+    }
+
+    /// display format for upper value. Default to %.0f to display value as Int
+    open var lowerDisplayFormatting: StringFormattingHandler {
         didSet {
             updateLabelDisplay()
         }
@@ -178,12 +187,21 @@ open class NHRangeSliderView: UIView {
     //MARK: init
     
     public override init(frame: CGRect) {
+        let formatting: StringFormattingHandler = { view, value in
+            return String(format: "%.0f", value )
+        }
+        upperDisplayFormatting = formatting
+        lowerDisplayFormatting = formatting
         super.init(frame: frame)
-        
         setup()
     }
     
     required public init?(coder aDecoder: NSCoder) {
+        let formatting: StringFormattingHandler = { view, value in
+            return String(format: "%.0f", value )
+        }
+        upperDisplayFormatting = formatting
+        lowerDisplayFormatting = formatting
         super.init(coder: aDecoder)
         
         setup()
@@ -240,8 +258,8 @@ open class NHRangeSliderView: UIView {
     // update labels display
     open func updateLabelDisplay() {
         
-        self.lowerLabel?.text = String(format: self.lowerDisplayStringFormat, rangeSlider!.lowerValue )
-        self.upperLabel?.text = String(format: self.upperDisplayStringFormat, rangeSlider!.upperValue )
+        self.lowerLabel?.text = lowerDisplayFormatting(self, rangeSlider!.lowerValue)
+        self.upperLabel?.text = upperDisplayFormatting(self, rangeSlider!.upperValue)
         
         if self.lowerLabel != nil {
             
