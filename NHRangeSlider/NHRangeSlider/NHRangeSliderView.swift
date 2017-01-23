@@ -257,25 +257,23 @@ open class NHRangeSliderView: UIView {
     
     // update labels display
     open func updateLabelDisplay() {
-        
-        self.lowerLabel?.text = lowerDisplayFormatting(self, rangeSlider!.lowerValue)
-        self.upperLabel?.text = upperDisplayFormatting(self, rangeSlider!.upperValue)
-        
-        if self.lowerLabel != nil {
-            
-            // for stepped value we animate the labels
-            if self.stepValue != nil && self.thumbLabelStyle == .FOLLOW {
-                UIView.animate(withDuration: 0.1, animations: {
-                     self.layoutSubviews()
-                })
-            }
-            else {
-                self.setNeedsLayout()
-                self.layoutIfNeeded()
-            }
+
+        let lower: Double
+        let upper: Double
+        if let stepValue = stepValue {
+            lower = round(rangeSlider!.lowerValue / stepValue) * stepValue
+            upper = round(rangeSlider!.upperValue / stepValue) * stepValue
+        } else {
+            lower = rangeSlider!.lowerValue
+            upper = rangeSlider!.upperValue
         }
+        self.lowerLabel?.text = lowerDisplayFormatting(self, lower)
+        self.upperLabel?.text = upperDisplayFormatting(self, upper)
+
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
-    
+
     /// layout subviews
     override open func layoutSubviews() {
         super.layoutSubviews()

@@ -396,11 +396,8 @@ open class NHRangeSlider: UIControl {
                 upperValue = boundValue(upperValue + deltaValue, toLowerValue: lowerValue + gapBetweenThumbs, upperValue: maximumValue)
             }
         }
-        
-        // only send changed value if stepValue is not set. We will trigger this later in endTracking
-        if stepValue == nil {
-            sendActions(for: .valueChanged)
-        }
+
+        sendActions(for: .valueChanged)
         
         return true
     }
